@@ -8,5 +8,6 @@ catkin_package(CATKIN_DEPENDS)
 catkin_install_python(PROGRAMS
    # SOURCES FOR .py FILES
    scripts/pepper_node.py
+   scripts/pepper_virtual.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

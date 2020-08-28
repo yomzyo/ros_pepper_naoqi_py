@@ -2,6 +2,7 @@ import qi
 import rospy
 
 from trajectory_msgs.msg._JointTrajectory import JointTrajectory
+from naoqi_bridge_msgs.msg.JointAnglesWithSpeed import  JointAnglesWithSpeed
 
 class PepperMotionControll:
     def __init__(self, session):
@@ -9,14 +10,10 @@ class PepperMotionControll:
         self.motion_service = session.service("ALMotion")
         self.motion_service.setStiffness("Body", 1.0)
 
-        self.head_sub = rospy.Subscriber('/pepper_dcm/Head_controller/command', JointTrajectory, self.callback) 
-        self.left_arm_sub = rospy.Subscriber('/pepper_dcm/LeftArm_controller/command', JointTrajectory, self.callback)       
-        self.right_arm_sub = rospy.Subscriber('/pepper_dcm/RightArm_controller/command', JointTrajectory, self.callback)
-        self.left_hand_sub = rospy.Subscriber('/pepper_dcm/LeftHand_controller/command', JointTrajectory, self.callback)
-        self.right_hand_sub = rospy.Subscriber('/pepper_dcm/RightHand_controller/command', JointTrajectory, self.callback)
+        self.sub = rospy.Subscriber('/joint_angles', JointAnglesWithSpeed, self.callback) 
 
     def callback(self, msg):
-        self.motion_service.SetAngles(msg.joint_names, msg.points[0].positions, 0.8)
+        self.motion_service.SetAngles(msg.joint_names, msg.joint_angles, msg.speed)
     
     def __del__(self):
         self.motion_service.Destroy()
