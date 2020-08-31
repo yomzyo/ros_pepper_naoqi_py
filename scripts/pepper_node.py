@@ -23,10 +23,10 @@ if __name__ == "__main__":
     try:
         rospy.init_node("pepper_naoqi_py_node", anonymous=True)
             
-        session.connect("tcp:://" + args.ip + ":" + str(args.port))
+        session.connect("tcp://" + args.ip + ":" + str(args.port))
         PepperMotionControll(session)
     except RuntimeError:
-        rospy.logerr("Can't connect to Naoqi at ip \"%s\" on port %n.\n"
+        rospy.logerr("Can't connect to Naoqi at ip \"%s\" on port %d.\n"
                      "Please check your script arguments. Run with -h option for help.", args.ip, args.port)
         sys.exit(1)
         
